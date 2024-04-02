@@ -1,0 +1,22 @@
+<div class="modal fade" id="{{ id }}" tabindex="-1" role="dialog" aria-labelledby="{{ id }}Title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="{{ id }}Title">{{ title }}</h5>
+            </div>
+            <div class="modal-body">
+                {% if content %}
+                {% include content %}
+                {% endif %}
+                {{ text }}
+                <div class="{% if text %}pt-4{% elif content %}pt-4{% endif %}">
+                {% for key in keys %}
+                    <div style="display: {{ key.display }}" class="text-left key-{{ key.id }}">
+                        <img src="{{ url_for('static', filename='img/key-' + key.id + '.png') }}" class='key-img pr-4'></img><span class='key-label key-black'>{{ key.label }}</span>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

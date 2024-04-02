@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/static/css/scoreboard.css">
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <div class="row" style="padding-bottom: 2vh">
+            <div class="col-md-4 v-left">
+                <p class="name" id="player-1-first-name">{{ data.player_1.first_name }}</p>
+                <p class="name" id="player-1-last-name">{{ data.player_1.last_name }}</p>
+            </div>
+            <div class="col-md-4 v-mid">
+                <div class="time-labels">
+                    <p id="match-time" class="yellow">{{ data.match.time }}</p>
+                    <p id="frame-time" class="yellow">{{ data.frame.time }}</p>
+                </div>
+            </div>
+            <div class="col-md-4 v-right">
+                <p class="name" id="player-2-first-name">{{ data.player_2.first_name }}</p>
+                <p class="name" id="player-2-last-name">{{ data.player_2.last_name }}</p>
+            </div>
+        </div>
+
+        <div style="border-radius: 5px; background-color: #AAA; width: 90vw; height: 0.5vh; margin: auto;"></div>
+
+
+        <div class="row">
+            <div class="col-md-4 v-left">
+                <p class="score yellow" id="player-1-frames">{{ data.player_1.frames }}</p>
+            </div>
+            <div class="col-md-4 v-mid">
+                <div class="mid-labels">
+                    <p class="yellow">Frames</p>
+                    <p class="yellow" id="best-of"></p>
+                </div>
+            </div>
+            <div class="col-md-4 v-right">
+                <p class="score yellow" id="player-2-frames">{{ data.player_2.frames }}</p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4 v-left">
+                <p class="score yellow" id="player-1-break">{{ data.player_1.break }}</p>
+            </div>
+            <div class="col-md-4 v-mid">
+                <div class="mid-labels">
+                    <p class="yellow">Break</p>
+                    <p class="red" id="mod"> </p>
+                </div>
+            </div>
+            <div class="col-md-4 v-right">
+                <p class="score yellow" id="player-2-break">{{ data.player_2.break }}</p>
+            </div>
+        </div>
+
+        <div id="break-div"></div>
+
+        <div class="row">
+            <div class="col-md-4 v-left">
+                <p class="points" id="player-1-points">{{ data.player_1.points }}</p>
+            </div>
+            <div class="col-md-4 v-mid">
+                <div class="mid-labels mid-labels-points">
+                    <p id="points-label">Pontos</p>
+                    <div class="row" style="display: inline-block;">
+                        <div class="ball-size ball-margin" style="float: left;">
+                        </div>
+                        <p id="points-in-table" style="float: left;">
+                        </p>
+                        <div style="float: left; padding-top: 1.25vh;">
+                            <div id="reds-in-table" class="ball ball-size ball-margin ball-value-1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 v-right">
+                <p class="points" id="player-2-points">{{ data.player_2.points }}</p>
+            </div>
+        </div>
+</body>
+{% endblock %}
+
+{% block extra_js %}
+<script type="module" src="/static/js/scoreboard.js"></script>
+{% endblock %}

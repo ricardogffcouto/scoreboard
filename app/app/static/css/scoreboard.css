@@ -1,0 +1,78 @@
+.name {
+  font-size:8vh;
+  line-height: 9vh;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.v-left {
+  text-align: right;
+  margin-left: 2.5vw;
+  margin-right: -2.5vw;
+}
+
+.v-mid {
+  text-align: center;
+}
+
+.v-right {
+  text-align: left;
+  margin-left: -2.5vw;
+}
+
+.score {
+  font-size:21vh;
+  line-height:21vh;
+}
+
+.points {
+  font-size:25vh;
+  line-height:25vh;
+}
+
+.yellow {
+  color: #fdb912
+}
+
+.red {
+  color: red;
+}
+
+.mid-labels {
+  font-size:6vh;
+  line-height: 8vh;
+  padding-top: 3vh;
+}
+
+.mid-labels-points {
+  padding-top: 5.5vh;
+}
+
+
+.time-labels {
+  font-size:6vh;
+  line-height: 7vh;
+  padding-top: 2.5vh;
+}
+
+.one-third {
+  width:33.33333333%;
+  float:left;
+}
+
+#break-div {
+  padding-top: 1.5vh;
+  padding-bottom: 0.5vh;
+  height: 7.5vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.ball-size {
+  height: 6vh;
+  width: 6vh;
+  font-size: 3vh;
+  line-height: 6vh;
+}

@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/static/css/new_match.css">
+{% endblock %}
+
+
+{% block content %}
+<div id="content" style="padding-left: 7.5vw; padding-right: 7.5vw">
+    <div class="row" style="padding-top: 4vh; padding-bottom: 5vh">
+      <div class="col text-center">
+          <h2 style="font-size: 3rem">Criar novo jogo</h2>
+      </div>
+    </div>
+    <div style="border-radius: 5px; background-color: #AAA; width: 100%; height: 0.5vh; margin: auto;"></div>
+    <h2 style="padding-top: 4vh;">Nº de sócio</h2>
+    <div id="player-1" class="nm-field row pt-4">
+      <div class="col-1">
+          <img src="/static/img/right-arrow.png" width="42px" class="nm-arrow float-left mr-4" style="display:none;">
+      </div>
+      <div class="col-3">
+          <h2 class="nm-label">Jogador 1:</h2>
+      </div>
+      <div class="col-1 nm-input text-left">
+          <h2 class="nm-id" id="player-1-id"></h2>
+      </div>
+      <div class="col-7">
+          <h3 class="nm-name"></h3>
+      </div>
+    </div>
+    <div id="player-2" class="nm-field row pt-4 pb-2">
+        <div class="col-1">
+            <img src="/static/img/right-arrow.png" width="42px" class="nm-arrow float-left mr-4" style="display:none;">
+        </div>
+        <div class="col-3">
+            <h2 class="nm-label">Jogador 2:</h2>
+        </div>
+        <div class="col-1 nm-input text-left">
+            <h2 class="nm-id" id="player-2-id"></h2>
+        </div>
+        <div class="col-7">
+            <h3 class="nm-name"></h3>
+        </div>
+      </div>
+      <h2 class="pt-4">Dados do jogo</h2>
+      <div id="competition" class="nm-field row pt-4">
+        <div class="col-1">
+            <img src="/static/img/right-arrow.png" width="42px" class="nm-arrow float-left mr-4" style="display:none;">
+        </div>
+        <div class="col-3">
+            <h2 class="nm-label">Competição:</h2>
+        </div>
+        <div class="col-1 nm-input text-left">
+            <h2 class="nm-id" id="competition-id"></h2>
+        </div>
+        <div class="col-7">
+            <h3 class="nm-name"></h3>
+        </div>
+      </div>
+      <div id="best-of" class="nm-field row pt-4">
+            <div class="col-1">
+                <img src="/static/img/right-arrow.png" width="42px" class="nm-arrow float-left mr-4" style="display:none;">
+            </div>
+            <div class="col-3">
+                <h2 class="nm-label">À melhor de:</h2>
+            </div>
+            <div class="col-1 nm-input text-left">
+                <h2 class="nm-id"></h2>
+            </div>
+            <div class="col-7">
+                <h3 class="nm-name"></h3>
+            </div>
+          </div>
+      <div id="reds-in-table" class="nm-field row pt-4">
+          <div class="col-1">
+              <img src="/static/img/right-arrow.png" width="42px" class="nm-arrow float-left mr-4" style="display:none;">
+          </div>
+          <div class="col-3">
+              <h2 class="nm-label">Vermelhas:</h2>
+          </div>
+          <div class="col-1 nm-input text-left">
+              <h2 class="nm-id"></h2>
+          </div>
+          <div class="col-7">
+          </div>
+        </div>
+        <div class="row" style="padding-top: 6vh;">
+          <div class="col text-left">
+            <img src='/static/img/key-back.png' class='key-img pr-4'></img><span class='key-label' id="key-back">Retroceder</span>
+          </div>
+          <div class="col text-right">
+            <img src='/static/img/key-enter.png' class='key-img pr-4'></img><span class='key-label' id="key-forward">Avançar</span>
+          </div>
+        </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="matchNotCreatedModal" tabindex="-1" role="dialog" aria-labelledby="matchNotCreatedModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="matchNotCreatedModalTitle">Erro de rede</h5>
+            </div>
+            <div class="modal-body">
+                Não foi possível criar o encontro na base de dados.<br>Não será possível acompanhar o resultado em direto.<br>
+                <div class="row pt-4">
+                    <div class="col text-left">
+                        <img src='/static/img/key-back.png' class='key-img pr-4'></img><span class='key-label key-black' id="key-back">Retroceder</span>
+                    </div>
+                    <div class="col text-right">
+                        <img src='/static/img/key-enter.png' class='key-img pr-4'></img><span class='key-label key-black' id="key-forward">Avançar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+  <script type="module" src="/static/js/new_match.js"></script>
+{% endblock %}
+
+

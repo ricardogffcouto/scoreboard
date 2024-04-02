@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/static/css/end_frame.css">
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <div class="row" style="padding-top: 4vh;">
+            <div class="name-left name-div">
+                <p class="name" id="player-1-name">{{ players[0].name }}</p>
+            </div>
+            <div style="margin: 0 auto">
+                <p class="name" id="score">{{ stats.player_1.points }}-{{ stats.player_2.points }}</p>
+            </div>
+            <div class="name-right name-div">
+                <p class="name" id="player-2-name">{{ players[1].name }}</p>
+            </div>
+        </div>
+        <p id="title" style="text-align: center">{{ "ESTATÍSTICAS DO FRAME " + frame_number|string  if frame else "ESTATISTICAS DO ENCONTRO" }}</p>
+        <div id="break-div"></div>
+        <div id="stat-1" class="row stats">
+            <img src="/static/img/stat.png" class="stat-img"></img>
+            <div class="stat-center">
+                {{ "BOLAS EMBOLSADAS" if frame else "TOTAL DE PONTOS" }}
+            </div>
+            <div class="stat-left">
+                {{ stats.player_1.stats.potted_balls if frame else stats.player_1.stats.total_points }}
+            </div>
+            <div class="stat-right">
+                {{ stats.player_2.stats.potted_balls if frame else stats.player_2.stats.total_points }}
+            </div>
+        </div>
+        <div id="stat-2" class="row stats">
+            <img src="/static/img/stat.png" class="stat-img"></img>
+            <div class="stat-center">
+                    {{ "VERMELHAS EMBOLSADAS" if frame else "BOLAS EMBOLSADAS" }}
+                </div>
+                <div class="stat-left">
+                    {{ stats.player_1.stats.potted_reds if frame else stats.player_1.stats.potted_balls}}
+                </div>
+                <div class="stat-right">
+                    {{ stats.player_2.stats.potted_reds if frame else stats.player_2.stats.potted_balls}}
+                </div>
+        </div>
+        <div id="stat-3" class="row stats">
+            <img src="/static/img/stat.png" class="stat-img"></img>
+            <div class="stat-center">
+                    MELHOR BREAK
+                </div>
+                <div class="stat-left">
+                    {{ stats.player_1.stats.highest_break }}
+                </div>
+                <div class="stat-right">
+                    {{ stats.player_2.stats.highest_break }}
+                </div>
+        </div>
+        <div id="keys" class="row">
+            {% if frame and not stats.draw %}
+            <div class="col-md-3">
+                <img src='/static/img/key-back.png' class='key-img center-block'></img><span class='key-label'>Retroceder</span>
+            </div>
+            <div class="col-md-6" style="text-align: center">
+                <img src='/static/img/key-9.png' class='key-img'></img><span class='key-label'>Estatísticas do encontro</span>
+            </div>
+            <div class="col-md-3" style="text-align: right">
+                <img src='/static/img/key-enter.png' class='key-img'></img><span class='key-label'>Novo frame</span>
+            </div>
+            {% elif frame and stats.draw %}
+            <div class="col-md-12">
+                <img src='/static/img/key-back.png' class='key-img'></img><span class='key-label'>Retroceder</span>
+            </div>
+            {% else %}
+            <div class="col-md-6">
+                <img src='/static/img/key-back.png' class='key-img'></img><span class='key-label'>Retroceder</span>
+            </div>
+            <div class="col-md-6" style="text-align: right">
+                <img src='/static/img/key-endframe.png' class='key-img'></img><span class='key-label'>Fim de encontro</span>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+{% with id="newFrameModal", title="Novo frame", text="Começar novo frame?", keys=[{"id":"back", "label":"Recuar"}, {"id":"enter", "label":"Começar"}] %}
+    {% include "components/modal.html" %}
+{% endwith %}
+{% with id="endMatchModal", title="Fim de encontro", text="Terminar o encontro?", keys=[{"id":"back", "label":"Recuar"}, {"id":"enter", "label":"Terminar"}] %}
+    {% include "components/modal.html" %}
+{% endwith %}
+{% endblock %}
+
+{% block extra_js %}
+
+{% if frame %}
+<script type="module" src="/static/js/end_frame.js"></script>
+{% else %}
+<script type="module" src="/static/js/end_match.js"></script>
+{% endif %}
+
+{% endblock %}

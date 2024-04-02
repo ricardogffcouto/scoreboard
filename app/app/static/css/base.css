@@ -1,0 +1,182 @@
+html, body {
+    height: 100vh !important;
+    /* remove the extra whites around */
+    margin: 0;
+  }
+
+html *
+{
+    font-family: 'Exo 2' !important;
+    color: #FFF;
+    -webkit-margin-before: 0em !important;
+    -webkit-margin-after: 0em !important;
+    text-transform: uppercase !important;
+}
+
+body {
+  background-color: #000
+}
+
+.nm-label {
+  text-transform: none !important;
+}
+
+body {
+  opacity: 1;
+  transition: 1s opacity;
+}
+
+body.fade-out {
+  opacity: 0;
+  transition: none;
+}
+
+#content {
+  padding: 2.5vh;
+}
+
+.ball {
+  border-radius: 50%;
+  color: #fff;
+  text-align: center;
+  position: relative;
+}
+
+.ball-margin {
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
+}
+
+.break-ball-margin {
+  margin-left: 0.2vw;
+  margin-right: 0.2vw;
+  border:3px solid white;
+  line-height: 5vh !important;
+  margin-top: 2vh;
+}
+
+.ball-player {
+  height: 1.5vh;
+  width: calc(5vh + 0.5vw);
+  transform: translateX(-0.45vw);
+  position: absolute;
+  top: 120%;
+}
+
+.margin-between-breaks {
+  width: 1vw;
+}
+
+.ball-value-1 {
+  background: red
+}
+
+.ball-value-2 {
+  background: #fdb912
+}
+
+.ball-value-3 {
+  background: green;
+}
+
+.ball-value-4 {
+  background: #6B4423;
+}
+
+.ball-value-5 {
+  background: blue;
+}
+
+.ball-value-6 {
+  background: magenta;
+}
+
+.ball-value-7 {
+  background: black;
+}
+
+.ball-value-foul {
+  background: gray;
+}
+
+.ball-value-illegal {
+  background: red;
+}
+
+.player_1-color {
+  background: #5f0c0c;
+}
+
+.player_2-color {
+  background: #fdb912
+}
+
+.modal {
+  display: none;
+  visibility: visible;
+  opacity: 1;
+  animation: fade 0.4s;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+}
+
+@keyframes fade {
+  0% {
+      opacity: 0;
+  }
+
+  100% {
+      opacity: 1;
+  }
+}
+
+/* .modal-content {
+  text-align: center;
+  font-size: 6vh;
+  width: 100%;
+  position: absolute;
+  top: 40%;
+  transform: translate(0%, -40%);
+} */
+
+.border-3 {
+  border-width:3px !important;
+}
+
+.modal-backdrop {
+  z-index: -1;
+}
+
+.modal-dialog {
+  max-width: 50vw;
+}
+
+.modal-title {
+  width: 100%;
+  text-align: center;
+}
+
+.modal-title, .modal-body, .modal-body > *, .modal-footer{
+  font-size: 4vh;
+  color: #212529
+}
+
+
+.modal-body, .modal-body > *, .modal-footer {
+  text-transform: none !important;
+}
+
+.key-black {
+  color: #212529
+}
+
+#loadGameModal .modal-body > p {
+  color: #212529;
+  text-transform: none !important;
+}

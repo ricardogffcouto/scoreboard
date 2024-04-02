@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+{% endblock %}
+
+{% block content %}
+  <div class="outer red-bg">
+    <div class="middle">
+      <div class="inner">
+            <img id="logo" src="/static/img/logo.png"></img>
+      </div>
+    </div>
+  </div>
+  {% with id="choicesModal", title="Escolher modo de jogo", keys=[{"id":"enter", "label":"Criar novo jogo"}, {"id":"9", "label":"Carregar jogo"}, {"id":"0", "label":"Carregar último jogo"}] %}
+    {% include "components/modal.html" %}
+  {% endwith %}
+  {% with id="notConnectedModal", title="Erro na ligação à Internet", text="Não foi possível ligar-se à Internet.", keys=[{"id":"back", "label":"Recuar"}] %}
+    {% include "components/modal.html" %}
+  {% endwith %}
+  {% with id="lastMatchNotFoundModal", title="Último jogo não encontrado", text="Não foi possível carregar o último jogo.", keys=[{"id":"back", "label":"Recuar"}] %}
+    {% include "components/modal.html" %}
+  {% endwith %}
+  {% with id="matchNotFoundModal", title="Jogo não encontrado", text="Não foi possível encontrar o jogo.", keys=[{"id":"back", "label":"Recuar"}] %}
+    {% include "components/modal.html" %}
+  {% endwith %}
+  {% with id="matchNotValidModal", title="Jogo não válido", text="Este jogo já começou, não é possível carregá-lo.", keys=[{"id":"back", "label":"Recuar"}] %}
+    {% include "components/modal.html" %}
+  {% endwith %}
+  {% with id="findGameModal", title="Carregar jogo", content="components/find_game_modal_content.html", keys=[{"id":"back", "label":"Recuar"}, {"id":"enter", "label":"Encontrar jogo", "display":"none"}] %}
+    {% include "components/modal.html" %}
+  {% endwith %}
+  {% with id="loadGameModal", content="components/load_game_modal_content.html", keys=[{"id":"back", "label":"Recuar"}, {"id":"enter", "label":"Começar"}] %}
+    {% include "components/modal.html" %}
+  {% endwith %}
+  {% with id="loadLastGameModal", content="components/load_game_modal_content.html", keys=[{"id":"back", "label":"Recuar"}, {"id":"enter", "label":"Começar"}] %}
+    {% include "components/modal.html" %}
+  {% endwith %}
+{% endblock %}
+
+{% block extra_js %}
+  <script type="module" src="/static/js/index.js"></script>
+{% endblock %}
