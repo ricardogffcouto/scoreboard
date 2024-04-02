@@ -1,49 +1,85 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*
 
-from builtins import object
-from . import Ball, Frame, Break, Player, json_utils
 import json
+from builtins import object
 from datetime import datetime
-import os
+
+from . import Ball, Frame, Break, Player, json_utils
+
 
 class Match(object):
     """docstring for Match"""
+
     def _json_fields(self):
         match = {
-            "url" : self.url,
-            "players" : self.players,
-            "best_of" : self.bestOf,
-            "frames" : self.frames,
-            "duration" : self.duration,
-            "total_reds" : self.total_reds,
-            "start_time" : self.start_time,
-            "filename" : self.filename,
+            "url": self.url,
+            "players": self.players,
+            "best_of": self.bestOf,
+            "frames": self.frames,
+            "duration": self.duration,
+            "total_reds": self.total_reds,
+            "start_time": self.start_time,
+            "filename": self.filename,
         }
         return match
-    
-    def toJSON(self):
+
+    def to_json(self):
         return json.dumps(self, default=json_utils.encoder, indent=4, sort_keys=True)
 
-    def from_JSON(self, data):
-        self.url = data['url']
-        for i, player in enumerate(data['players']):
-            self.players[i] = Player.Player(player['first_name'], player['last_name'], player['url'], player['member_id'])
-        for frame in data['frames']:
-            self.frames.append(Frame.Frame(self.players, self, frame['id'], [], frame['start_time'], frame['duration']))
-            for brk in frame['breaks']:
+    def from_json(self, data):
+        self.url = data["url"]
+        for i, player in enumerate(data["players"]):
+            self.players[i] = Player.Player(
+                player["first_name"],
+                player["last_name"],
+                player["url"],
+                player["member_id"],
+            )
+        for frame in data["frames"]:
+            self.frames.append(
+                Frame.Frame(
+                    self.players,
+                    self,
+                    frame["id"],
+                    [],
+                    frame["start_time"],
+                    frame["duration"],
+                )
+            )
+            for brk in frame["breaks"]:
                 player = self.players[0]
-                if brk['player']['url'] == self.players[1].url:
+                if brk["player"]["url"] == self.players[1].url:
                     player = self.players[1]
-                self.frames[-1].breaks.append(Break.Break(player, self.frames[-1], self, brk['id'], [], brk['start_time']))
-                for ball in brk['balls']:
+                self.frames[-1].breaks.append(
+                    Break.Break(
+                        player, self.frames[-1], self, brk["id"], [], brk["start_time"]
+                    )
+                )
+                for ball in brk["balls"]:
                     brk_obj = self.frames[-1].breaks[-1]
-                    self.frames[-1].breaks[-1].potted.append(Ball.Ball(self, brk_obj, ball['order'], ball['value'], ball['end_break'],  ball['free_ball'], ball['foul'], ball['manual'], ball['is_last_red'], ball['is_final_sequence'], ball['red_illegal_pot'], ball['end_frame'], ball['pot_time']))
-        self.bestOf = data['best_of']
-        self.duration = data['duration']
-        self.total_reds = data['total_reds']
-        self.start_time = data['start_time']
-        self.filename = data['filename']
+                    self.frames[-1].breaks[-1].potted.append(
+                        Ball.Ball(
+                            self,
+                            brk_obj,
+                            ball["order"],
+                            ball["value"],
+                            ball["end_break"],
+                            ball["free_ball"],
+                            ball["foul"],
+                            ball["manual"],
+                            ball["is_last_red"],
+                            ball["is_final_sequence"],
+                            ball["red_illegal_pot"],
+                            ball["end_frame"],
+                            ball["pot_time"],
+                        )
+                    )
+        self.bestOf = data["best_of"]
+        self.duration = data["duration"]
+        self.total_reds = data["total_reds"]
+        self.start_time = data["start_time"]
+        self.filename = data["filename"]
 
     def duration_to_time(self, seconds, match=True):
         m, s = divmod(seconds, 60)
@@ -84,8 +120,8 @@ class Match(object):
     def highest_break_balls_with_player(self):
         brk = self.highest_break()
         balls = {
-            'player': 0 if brk.player == self.players[0] else 1,
-            'balls': [ball.toJSON() for ball in brk.potted]
+            "player": 0 if brk.player == self.players[0] else 1,
+            "balls": [ball.to_json() for ball in brk.potted],
         }
         return balls
 
@@ -171,7 +207,9 @@ class Match(object):
             return {"success": False, "data": ""}
 
     def new_frame(self):
-        new_frame = Frame.Frame(players=self.players, match=self, frame_id=self.currentFrameId())
+        new_frame = Frame.Frame(
+            players=self.players, match=self, frame_id=self.currentFrameId()
+        )
         self.frames.append(new_frame)
 
     def winner(self):
@@ -212,22 +250,25 @@ class Match(object):
 
     def scoreboard_data(self):
         return {
-            "player_1":{
+            "player_1": {
                 "first_name": self.players[0].firstName,
                 "last_name": self.players[0].lastName,
                 "frames": self.score()[0],
-                "break": self.currentFrame().currentBreak().breakPoints() if self.currentFrame().currentBreak().player is self.players[0] else "",
+                "break": self.currentFrame().currentBreak().breakPoints()
+                if self.currentFrame().currentBreak().player is self.players[0]
+                else "",
                 "points": self.currentFrame().score()[0],
-
             },
-            "player_2":{
+            "player_2": {
                 "first_name": self.players[1].firstName,
                 "last_name": self.players[1].lastName,
                 "frames": self.score()[1],
-                "break": self.currentFrame().currentBreak().breakPoints() if self.currentFrame().currentBreak().player is self.players[1] else "",
+                "break": self.currentFrame().currentBreak().breakPoints()
+                if self.currentFrame().currentBreak().player is self.players[1]
+                else "",
                 "points": self.currentFrame().score()[1],
             },
-            "frame":{
+            "frame": {
                 "reds_in_table": self.currentFrame().redsInTable(),
                 "points_in_table": self.currentFrame().pointsInTable(),
                 "enough_points_to_win": self.currentFrame().enough_points_to_win(),
@@ -235,46 +276,56 @@ class Match(object):
                 "break_balls": self.currentFrame().currentBreak().potted,
                 "allowed_mods": self.currentFrame().allowed_mods(),
                 "duration": self.currentFrame().duration,
-                "time": self.duration_to_time(self.currentFrame().duration, False)
+                "time": self.duration_to_time(self.currentFrame().duration, False),
             },
-            "match":{
+            "match": {
                 "id": self.url,
                 "best_of": self.bestOf,
                 "start_time": self.start_time,
                 "duration": self.duration,
-                "time": self.duration_to_time(self.duration)
-            }
+                "time": self.duration_to_time(self.duration),
+            },
         }
-    
-    def scoreboard_data_json(self):
-        return json.dumps(self.scoreboard_data(), default=json_utils.encoder, indent=4, sort_keys=True)
 
+    def scoreboard_data_json(self):
+        return json.dumps(
+            self.scoreboard_data(), default=json_utils.encoder, indent=4, sort_keys=True
+        )
 
     def stats(self):
         return {
-            "player_1":{
+            "player_1": {
                 "points": self.currentScore()[0],
                 "stats": {
                     "potted_balls": len(self.balls_potted_per_player()[0]),
                     "total_points": self.points_per_player()[0],
                     "highest_break": self.highest_break_per_player()[0],
-                }
-
+                },
             },
-            "player_2":{
+            "player_2": {
                 "points": self.currentScore()[1],
                 "stats": {
                     "potted_balls": len(self.balls_potted_per_player()[1]),
                     "total_points": self.points_per_player()[1],
                     "highest_break": self.highest_break_per_player()[1],
-                }
+                },
             },
             "highest_break": self.highest_break_balls_with_player(),
             "match_duration": self.duration,
-            "frame_duration": self.currentFrame().duration
+            "frame_duration": self.currentFrame().duration,
         }
 
-    def __init__(self, url=None, player1 = None, player2 = None, bestOf = 0, frames = None, total_reds = 15, start_time = None, filename = None):
+    def __init__(
+        self,
+        url=None,
+        player1=None,
+        player2=None,
+        bestOf=0,
+        frames=None,
+        total_reds=15,
+        start_time=None,
+        filename=None,
+    ):
         super(Match, self).__init__()
 
         self.url = url

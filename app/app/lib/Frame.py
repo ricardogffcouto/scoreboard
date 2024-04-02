@@ -6,14 +6,16 @@ from . import Break, Ball, json_utils
 import json
 from datetime import datetime
 
+
 class Frame(object):
     """docstring for Frame"""
+
     def _json_fields(self):
         frame = {
-            "id" : self.frame_id,
-            "breaks" : self.breaks,
-            "start_time" : self.start_time,
-            "duration" : self.duration,
+            "id": self.frame_id,
+            "breaks": self.breaks,
+            "start_time": self.start_time,
+            "duration": self.duration,
         }
         return frame
 
@@ -50,7 +52,9 @@ class Frame(object):
     def endBreak(self):
         # Change players
         brk = self.currentBreak()
-        end_break = Ball.Ball(match = self.match, brk=brk, order=self.match.currentBallId(), end_break = True)
+        end_break = Ball.Ball(
+            match=self.match, brk=brk, order=self.match.currentBallId(), end_break=True
+        )
         brk.potted.append(end_break)
 
         if self.activePlayer() == self.players[0]:
@@ -60,32 +64,37 @@ class Frame(object):
 
         # Create new break
         newBreak = Break.Break(
-            player = newPlayer,
-            frame = self,
-            break_id = self.match.currentBreakId(),
-            match = self.match)
+            player=newPlayer,
+            frame=self,
+            break_id=self.match.currentBreakId(),
+            match=self.match,
+        )
         self.breaks.append(newBreak)
 
         return end_break
 
     def newBreakSamePlayer(self):
         brk = self.currentBreak()
-        end_break = Ball.Ball(match = self.match, brk=brk, order=self.match.currentBallId(), end_break = True)
+        end_break = Ball.Ball(
+            match=self.match, brk=brk, order=self.match.currentBallId(), end_break=True
+        )
         brk.potted.append(end_break)
 
         newBreak = Break.Break(
-            player = self.activePlayer(),
-            frame = self,
-            break_id = self.match.currentBreakId(),
-            match = self.match
-            )
+            player=self.activePlayer(),
+            frame=self,
+            break_id=self.match.currentBreakId(),
+            match=self.match,
+        )
         self.breaks.append(newBreak)
 
         return end_break
 
     def create_end_frame_ball(self):
         brk = self.currentBreak()
-        end_frame = Ball.Ball(match = self.match, brk=brk, order=self.match.currentBallId(), end_frame = True)
+        end_frame = Ball.Ball(
+            match=self.match, brk=brk, order=self.match.currentBallId(), end_frame=True
+        )
         brk.potted.append(end_frame)
         return end_frame
 
@@ -100,7 +109,6 @@ class Frame(object):
             if brk.redsPotted() == -1:
                 return True
         return False
-                
 
     def pointsInTable(self):
         pointsInTable = self.match.total_reds * 8 + 27
@@ -111,7 +119,9 @@ class Frame(object):
                 return -1
             finalSequencePoints += brk.finalSequencePoints()
 
-        pointsInTable -= (self.match.total_reds - self.redsInTable()) * 8 + finalSequencePoints
+        pointsInTable -= (
+            self.match.total_reds - self.redsInTable()
+        ) * 8 + finalSequencePoints
 
         # If match is tied and there are no points in table
         if self.score()[0] - self.score()[1] == 0 and pointsInTable == 0:
@@ -123,7 +133,7 @@ class Frame(object):
         redsInTable = self.match.total_reds
 
         for brk in self.breaks:
-            redsInTable -= (brk.redsPotted() + brk.illegal_reds())
+            redsInTable -= brk.redsPotted() + brk.illegal_reds()
             if brk.redsPotted() == -1:
                 return -1
 
@@ -140,7 +150,7 @@ class Frame(object):
         return score
 
     def isFinalSequence(self):
-        '''Verifies if there are no reds in table, and if we started the final sequence'''
+        """Verifies if there are no reds in table, and if we started the final sequence"""
         last_break = self.breaks[-1]
         if self.redsInTable() == 0:
             if len(last_break.potted):
@@ -159,9 +169,13 @@ class Frame(object):
         highest_break_per_player = [0, 0]
         for brk in self.breaks:
             if brk.player == self.players[0]:
-                highest_break_per_player[0] = max(highest_break_per_player[0], brk.breakPoints())
+                highest_break_per_player[0] = max(
+                    highest_break_per_player[0], brk.breakPoints()
+                )
             else:
-                highest_break_per_player[1] = max(highest_break_per_player[1], brk.breakPoints())
+                highest_break_per_player[1] = max(
+                    highest_break_per_player[1], brk.breakPoints()
+                )
         return highest_break_per_player
 
     def highest_break(self):
@@ -205,7 +219,7 @@ class Frame(object):
             "foul": True,
             "manual": True,
             "undo": True,
-            "remove_red": True
+            "remove_red": True,
         }
         if self.last_ball_was_foul():
             allowed_mods["freeball"] = True
@@ -242,7 +256,10 @@ class Frame(object):
                         return [last_ball.value + 1]
                 return [2]
 
-            if last_ball.value == 1 and self.break_with_last_ball_potted() == self.currentBreak():
+            if (
+                last_ball.value == 1
+                and self.break_with_last_ball_potted() == self.currentBreak()
+            ):
                 return any_ball
 
         return [1]
@@ -252,7 +269,6 @@ class Frame(object):
         for brk in self.breaks:
             balls += brk.balls_potted()
         return balls
-
 
     def balls_potted_per_player(self):
         balls = [[], []]
@@ -267,10 +283,12 @@ class Frame(object):
         balls = []
         for brk in self.breaks:
             if len(brk.potted):
-                balls.append({
-                    'player': 0 if brk.player == self.players[0] else 1,
-                    'break': [ball.toJSON() for ball in brk.potted]
-                })
+                balls.append(
+                    {
+                        "player": 0 if brk.player == self.players[0] else 1,
+                        "break": [ball.to_json() for ball in brk.potted],
+                    }
+                )
         return balls
 
     def reds_potted_per_player(self):
@@ -286,28 +304,29 @@ class Frame(object):
 
     def stats(self):
         return {
-            "player_1":{
+            "player_1": {
                 "points": self.score()[0],
                 "stats": {
                     "potted_balls": len(self.balls_potted_per_player()[0]),
                     "potted_reds": len(self.reds_potted_per_player()[0]),
                     "highest_break": self.highest_break_per_player()[0],
-                }
-
+                },
             },
-            "player_2":{
+            "player_2": {
                 "points": self.score()[1],
                 "stats": {
                     "potted_balls": len(self.balls_potted_per_player()[1]),
                     "potted_reds": len(self.reds_potted_per_player()[1]),
                     "highest_break": self.highest_break_per_player()[1],
-                }
+                },
             },
             "balls": self.all_balls_potted_in_order(),
-            "draw": True if self.score()[0] == self.score()[1] else False
+            "draw": True if self.score()[0] == self.score()[1] else False,
         }
 
-    def __init__(self, players, match, frame_id, breaks = None, start_time = None, duration = 0):
+    def __init__(
+        self, players, match, frame_id, breaks=None, start_time=None, duration=0
+    ):
         super(Frame, self).__init__()
 
         self.players = players
@@ -319,11 +338,12 @@ class Frame(object):
         if breaks is None:
             breaks = [
                 Break.Break(
-                    player = self.players[0],
-                    frame = self,
-                    break_id = self.match.currentBreakId(),
-                    match = self.match)
-                ]
+                    player=self.players[0],
+                    frame=self,
+                    break_id=self.match.currentBreakId(),
+                    match=self.match,
+                )
+            ]
 
         if not start_time:
             start_time = datetime.now()
