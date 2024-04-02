@@ -3,3 +3,4 @@ players
 webscoreboard_config.py
 app/.flaskenv
 app/app/matches/*
+*.pyc
